@@ -260,10 +260,10 @@ ggsave("plot_Histograma_2019.png", plot = p, width = 7, height = 5, dpi = 300)
 
 ## 📝 **Notas Técnicas**
 
-1.Se usó RODBC para transferir datos desde SQL Server a R.
+1. Se usó RODBC para transferir datos desde SQL Server a R.
 
-2.La normalización se realiza en SQL antes de los plots exceptuando los datos `Divvy_Trips_2019_Q1.csv` que han sido importados en R para luego limpiarlos antes de generar los plots.
+2. La normalización se realiza en SQL antes de los plots exceptuando los datos `Divvy_Trips_2019_Q1.csv` que han sido importados en R para luego limpiarlos antes de generar los plots.
 
-3.Se incluye limpieza y validación de datos para asegurar calidad.
+3. Se incluye limpieza y validación de datos para asegurar calidad.
 
-4.Los CSV se cargan con BULK INSERT y funciones auxiliares.
+4. Los CSV se cargan con BULK INSERT y funciones auxiliares.
