@@ -186,7 +186,7 @@ odbcClose(Cyclic_DB)
 ```
 - En este punto se puede volver al tenting de `SQL` para ver los datos importados de `Divvy_Trips_2019_Q1.csv` en la base de datos.
 
-## *Plots*
+## **Plots**
 
 1. Una vez ejecutados los Scripts anteriores, los dataframes estan listos para generar `plots`
 2. Ejecutar el Script `Creacion_de_Plots.R`. Primero se toma una muestra(`sample`) de los datos importados para que no se saturen los plots por la masiva cantidad de datos.
@@ -212,13 +212,48 @@ p<-ggplot(data=sample) +
 ggsave("plot_Diagrama_de_Dispersion_2_2020.png", plot = p, width = 7, height = 5, dpi = 300)
 
 
-# Diagrama de caja
+# Mapa
 
-p<-ggplot(data=sample) +
-  geom_boxplot(mapping= aes(x = tipo_cliente, y = tiempo_minutos, fill = tipo_cliente)) +
-  labs(title = "Tiempo de viaje por tipo de cliente", x = "Tipo de cliente", y = "Tiempo (minutos)")
+p <- ggplot(data = viajes_top) +
+  geom_bin2d(mapping = aes(x = nombre_estacion_final.x, y = nombre_estacion_comienzo.y)) +
+  scale_fill_gradient(low = "lightblue", high = "darkblue") +
+  labs(title = "Mapa de viajes entre estaciones top 10", x = "Estación inicio", y = "Estación final")+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 #guardar plot
-ggsave("plot_Diagrama_de_cajas_2020.png", plot = p, width = 7, height = 5, dpi = 300)
+ggsave("plot_Mapa_2020.png", plot = p, width = 7, height = 5, dpi = 300)
 
 ```
+![imagen1](https://github.com/APerezThomas/Data-Pipeline---SQL-y-R/blob/main/Plots/plot_Diagrama_de_Dispersion_2_2020.png)
+![imagen2](https://github.com/APerezThomas/Data-Pipeline---SQL-y-R/blob/main/Plots/plot_Mapa_2020.png)
+
+
+4. Se crean `plots` del los datos provenientes del archivo `Divvy_Trips_2019_Q1.csv`
+### *Ejemplos de codigo:*
+
+```r
+
+# Diagrama de dispersion
+
+p <- ggplot(data=sample)+
+  geom_point(mapping = aes(x = tripduration/60, y = year(today())- birthyear, colour = gender,shape = gender ), alpha=0.6 )+
+  geom_smooth(mapping = aes(x = tripduration/60, y = year(today())- birthyear), method="lm",color="blue")+
+  facet_wrap(~gender~usertype)+
+  labs(title = "Relacion entre duracion y edad de clientes",subtitle="Clientes menores de 80 años y duracion de recorrido menor a 30 minutos",x = "Duracion en minutos",y = "Edad de los clientes")
+#guardar plot
+ggsave("plot_Dispersion_2019.png", plot = p, width = 7, height = 5, dpi = 300)
+
+# Histograma
+
+p <- ggplot(data = sample)+
+  geom_histogram(mapping = aes(x=tripduration/60,fill = gender),binwidth =1,color="black",alpha= 0.5)+
+  labs(title = "Relacion entre duracion y frecuencia de clientes",subtitle="Clientes menores de 80 años y duracion de recorrido menor a 30 minutos",x = "Duracion en minutos",y = "Apariciones")+
+  facet_wrap(~gender)+
+  scale_x_continuous(breaks = seq(0, 30, by = 2)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+#guardar plot
+ggsave("plot_Histograma_2019.png", plot = p, width = 7, height = 5, dpi = 300)
+
+```
+![imagen3](https://github.com/APerezThomas/Data-Pipeline---SQL-y-R/blob/main/Plots/plot_Histograma_2019.png)
+![imagen4](https://github.com/APerezThomas/Data-Pipeline---SQL-y-R/blob/main/Plots/plot_Dispersion_2019.png)
 
