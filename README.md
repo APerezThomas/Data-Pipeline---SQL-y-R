@@ -1,20 +1,20 @@
 # 📊 **SQL & R Data Pipeline** 
 
 **SQL** y **R**, construyendo un flujo de trabajo (pipeline):  
-1. Recepción de archivos `.CSV`  
-2. Carga en **SQL Server** mediante consultas y normalización de datos  
-3. Envío de datos procesados a **R** usando `RODBC`  
-4. Análisis y visualización en R con distintos **plots**  
-5. Limpieza y normalización de un segundo `.CSV` directamente en R
+1. Recepción de archivos `.CSV`.
+2. Carga en **SQL Server** mediante consultas y normalización de datos.
+3. Envío de datos procesados a **R** usando `RODBC`.
+4. Análisis y visualización en R con distintos **plots**  .
+5. Limpieza y normalización de un segundo `.CSV` directamente en R.
 
 ---
 
 ## 🗂️ **Estructura del Proyecto**
 
 ## **Datos**
-- Descomprimir el .rar *"Archivos"*
-- En esta carpeta se encuentran los datos que se van a manejar
-- Archivos en formato .csv
+- Descomprimir el .rar *"Archivos"*.
+- En esta carpeta se encuentran los datos que se van a manejar.
+- Archivos en formato .csv.
 ```
 -Divvy_Trips_2019_Q1.csv
 -Divvy_Trips_2020_Q1.csv
@@ -22,9 +22,9 @@
 
 ---
 
-## **SQL Server**
+## 📈 **SQL Server**
 
-1. Ejecutar el Scrip `Crecion_base_de_datos.sql`. En este se creara toda la estructura y los componentes de la base de datos
+1. Ejecutar el Scrip `Crecion_base_de_datos.sql`. En este se creara toda la estructura y los componentes de la base de datos.
    
 
 ```sql
@@ -72,7 +72,7 @@ GO
 ```
 
 2. Ejecutar el Scrip `funciones_procedures.sql`. En este se crearan los Stored Procedures que complemetan la importacion del archivo `Divvy_Trips_2020_Q1.csv` entre otras funciones complementarias.
-   considerar que para poder exportar el archivo `.csv` a SQL Server debes tener el proveedor [Microsoft.ACE.OLEDB](https://www.microsoft.com/es-es/download/details.aspx?id=54920).
+   Considerar que para poder exportar el archivo `.csv` a SQL Server debes tener el proveedor [Microsoft.ACE.OLEDB](https://www.microsoft.com/es-es/download/details.aspx?id=54920).
 3. Una vez hecho todo lo anterior se podra ir testeando con el script `Testing.sql`. El Script contiene la prueba de los Stored Procedure y ciertas consulta a la base de datos.
 
 
@@ -132,7 +132,7 @@ END
 
 ---
 
-## **R**
+## 📈 **R**
 
 1. Primero ejecutar la siguiente linea de codigo para descargar los paquetes que han sido utilizados en la demostracion.
 
@@ -186,9 +186,9 @@ odbcClose(Cyclic_DB)
 ```
 - En este punto se puede volver al tenting de `SQL` para ver los datos importados de `Divvy_Trips_2019_Q1.csv` en la base de datos.
 
-## **Plots**
+## 📈 **Plots**
 
-1. Una vez ejecutados los Scripts anteriores, los dataframes estan listos para generar `plots`
+1. Una vez ejecutados los Scripts anteriores, los dataframes estan listos para generar `plots`.
 2. Ejecutar el Script `Creacion_de_Plots.R`. Primero se toma una muestra(`sample`) de los datos importados para que no se saturen los plots por la masiva cantidad de datos.
 
 ```r
@@ -198,7 +198,7 @@ sample <- datos_2020 %>% sample_n(3000) %>% filter(tiempo_minutos <180)
 
 ```
 
-3. Se crean `plots` del los datos provenientes del archivo `Divvy_Trips_2020_Q1.csv`
+3. Se crean `plots` del los datos provenientes del archivo `Divvy_Trips_2020_Q1.csv`.
 ### *Ejemplos de codigo:* 
 ```r
 #Diagrama de dispersion.
@@ -227,7 +227,7 @@ ggsave("plot_Mapa_2020.png", plot = p, width = 7, height = 5, dpi = 300)
 ![imagen2](https://github.com/APerezThomas/Data-Pipeline---SQL-y-R/blob/main/Plots/plot_Mapa_2020.png)
 
 
-4. Se crean `plots` del los datos provenientes del archivo `Divvy_Trips_2019_Q1.csv`
+4. Se crean `plots` del los datos provenientes del archivo `Divvy_Trips_2019_Q1.csv`.
 ### *Ejemplos de codigo:*
 
 ```r
@@ -257,3 +257,9 @@ ggsave("plot_Histograma_2019.png", plot = p, width = 7, height = 5, dpi = 300)
 ![imagen3](https://github.com/APerezThomas/Data-Pipeline---SQL-y-R/blob/main/Plots/plot_Histograma_2019.png)
 ![imagen4](https://github.com/APerezThomas/Data-Pipeline---SQL-y-R/blob/main/Plots/plot_Dispersion_2019.png)
 
+## 📝 **Notas Técnicas**
+
+1.Se usó RODBC para transferir datos desde SQL Server a R.
+2.La normalización se realiza en SQL antes de los plots exceptuando los datos `Divvy_Trips_2019_Q1.csv` que han sido importados en R para luego limpiarlos antes de generar los plots.
+3.Se incluye limpieza y validación de datos para asegurar calidad.
+4.Los CSV se cargan con BULK INSERT y funciones auxiliares.
