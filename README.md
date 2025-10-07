@@ -1,4 +1,4 @@
-# 📊 **SQL & R Data Pipeline** 
+# 📊 **SQL & R Data - Pipeline** 
 
 **SQL** y **R**, construyendo un flujo de trabajo (pipeline):  
 1. Recepción de archivos `.CSV`.
